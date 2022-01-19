@@ -10,6 +10,7 @@ public class ConstantesApp {
     public static final String MENSAJE = "mensaje";
     public static final String ERRORES = "errores";
     public static final String DESCRIPCION = "descripcion";
+    public static final String USUARIOS = "usuarios";
     public static final String CODIGO_OK = "1";
     public static final String CODIGO_NOK = "0";
     public static final String CODIGO_NOK_EXC = "-1";

@@ -26,4 +26,19 @@ public class GeneralAdapter {
         return respuestaGenericaDto;
     }
 
+    public RespuestaGenericaDto obtenerRespuestaOk(){
+        RespuestaGenericaDto respuestaGenericaDto = new RespuestaGenericaDto();
+        Map<String, Object> respuesta = new HashMap<>();
+
+        respuestaGenericaDto.setStatus(ConstantesApp.STATUS_CODE_OK);
+
+        respuesta.put(ConstantesApp.CODIGO, ConstantesApp.CODIGO_OK);
+        respuesta.put(ConstantesApp.MENSAJE, ConstantesApp.MENSAJE_OK);
+        respuesta.put(ConstantesApp.DESCRIPCION, ConstantesApp.OPERACION_OK);
+        
+        respuestaGenericaDto.setData(respuesta);
+
+        return respuestaGenericaDto;
+    }
+
 }

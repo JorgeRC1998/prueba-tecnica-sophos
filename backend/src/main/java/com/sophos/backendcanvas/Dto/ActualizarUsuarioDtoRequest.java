@@ -1,12 +1,19 @@
 package com.sophos.backendcanvas.Dto;
 
-public class UsuarioRequestDto {
+public class ActualizarUsuarioDtoRequest {
+    private Integer id;
     private String nombre;
     private String identificacion;
     private String tipoUsuario;
     private String usuario;
     private String password;
-
+    
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
     public String getNombre() {
         return nombre;
     }

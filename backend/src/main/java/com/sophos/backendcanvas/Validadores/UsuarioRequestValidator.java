@@ -3,53 +3,104 @@ package com.sophos.backendcanvas.Validadores;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sophos.backendcanvas.Dto.UsuarioRequestDto;
+import com.sophos.backendcanvas.Dto.ActualizarUsuarioDtoRequest;
+import com.sophos.backendcanvas.Dto.CrearUsuarioRequestDto;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class UsuarioRequestValidator {
     
-    public List<String> validacionUsuarioRequest(UsuarioRequestDto usuarioRequestDto){
+    public List<String> validacionCrearUsuarioRequest(CrearUsuarioRequestDto crearUsuarioRequestDto){
         List<String> errores = new ArrayList<>();
 
-        if(usuarioRequestDto.getNombre().trim().equals("")){
+        if(crearUsuarioRequestDto.getNombre().trim().equals("")){
             errores.add("Campo nombre es requerido");
         }
 
-        if(usuarioRequestDto.getNombre().trim().length() > 25){
+        if(crearUsuarioRequestDto.getNombre().trim().length() > 25){
             errores.add("La longitud del campo nombre debe ser inferior a 25 caracteres");
         }
 
-        if(usuarioRequestDto.getIdentificacion().trim().equals("")){
+        if(crearUsuarioRequestDto.getIdentificacion().trim().equals("")){
             errores.add("Campo identificacion es requerido");
         }
 
-        if(usuarioRequestDto.getIdentificacion().trim().length() > 15){
+        if(crearUsuarioRequestDto.getIdentificacion().trim().length() > 15){
             errores.add("La longitud del campo identificacion debe ser inferior a 15 caracteres");
         }
 
-        if(usuarioRequestDto.getTipoUsuario().trim().equals("")){
+        if(crearUsuarioRequestDto.getTipoUsuario().trim().equals("")){
             errores.add("Campo tipoUsuario es requerido");
         }
 
-        if(usuarioRequestDto.getTipoUsuario().trim().length() > 15){
+        if(crearUsuarioRequestDto.getTipoUsuario().trim().length() > 15){
             errores.add("La longitud del campo tipoUsuario debe ser inferior a 15 caracteres");
         }
 
-        if(usuarioRequestDto.getUsuario().trim().equals("")){
+        if(crearUsuarioRequestDto.getUsuario().trim().equals("")){
             errores.add("Campo usuario es requerido");
         }
 
-        if(usuarioRequestDto.getUsuario().trim().length() > 15){
+        if(crearUsuarioRequestDto.getUsuario().trim().length() > 15){
             errores.add("La longitud del campo usuario debe ser inferior a 15 caracteres");
         }
     
-        if(usuarioRequestDto.getPassword().trim().equals("")){
+        if(crearUsuarioRequestDto.getPassword().trim().equals("")){
             errores.add("Campo password es requerido");
         }
 
-        if(usuarioRequestDto.getUsuario().trim().length() > 15){
+        if(crearUsuarioRequestDto.getUsuario().trim().length() > 15){
+            errores.add("La longitud del password nombre debe ser inferior a 15 caracteres");
+        }
+
+        return errores;
+    }
+
+    public List<String> validacionActualizarUsuarioRequest(ActualizarUsuarioDtoRequest actualizarUsuarioDtoRequest){
+        List<String> errores = new ArrayList<>();
+
+        if(actualizarUsuarioDtoRequest.getId() == null){
+            errores.add("Campo id es requerido");
+        }
+
+        if(actualizarUsuarioDtoRequest.getNombre().trim().equals("")){
+            errores.add("Campo nombre es requerido");
+        }
+
+        if(actualizarUsuarioDtoRequest.getNombre().trim().length() > 25){
+            errores.add("La longitud del campo nombre debe ser inferior a 25 caracteres");
+        }
+
+        if(actualizarUsuarioDtoRequest.getIdentificacion().trim().equals("")){
+            errores.add("Campo identificacion es requerido");
+        }
+
+        if(actualizarUsuarioDtoRequest.getIdentificacion().trim().length() > 15){
+            errores.add("La longitud del campo identificacion debe ser inferior a 15 caracteres");
+        }
+
+        if(actualizarUsuarioDtoRequest.getTipoUsuario().trim().equals("")){
+            errores.add("Campo tipoUsuario es requerido");
+        }
+
+        if(actualizarUsuarioDtoRequest.getTipoUsuario().trim().length() > 15){
+            errores.add("La longitud del campo tipoUsuario debe ser inferior a 15 caracteres");
+        }
+
+        if(actualizarUsuarioDtoRequest.getUsuario().trim().equals("")){
+            errores.add("Campo usuario es requerido");
+        }
+
+        if(actualizarUsuarioDtoRequest.getUsuario().trim().length() > 15){
+            errores.add("La longitud del campo usuario debe ser inferior a 15 caracteres");
+        }
+    
+        if(actualizarUsuarioDtoRequest.getPassword().trim().equals("")){
+            errores.add("Campo password es requerido");
+        }
+
+        if(actualizarUsuarioDtoRequest.getUsuario().trim().length() > 15){
             errores.add("La longitud del password nombre debe ser inferior a 15 caracteres");
         }
 
