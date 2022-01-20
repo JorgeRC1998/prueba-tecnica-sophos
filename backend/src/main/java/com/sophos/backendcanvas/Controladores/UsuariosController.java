@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -56,7 +55,7 @@ public class UsuariosController {
      * Actualiza un usuario previamente registrado en el sistema
      *
      * @param usuarioEntity Parámetros para realizar la actualización del nuevo usuario
-     * @return Resultado de la operación
+     * @return ResponseEntity Resultado de la operación
      * @author JorgeRojas
      */
     @PutMapping(path = "/actualizacion-usuario", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -69,7 +68,7 @@ public class UsuariosController {
      * Elimina un usuario
      *
      * @param idUsuario Id del usuario a eliminar
-     * @return Resultado de la operación
+     * @return ResponseEntity Resultado de la operación
      * @author JorgeRojas
      */
     @DeleteMapping(path = "/eliminado-usuario/{idUsuario}", produces = MediaType.APPLICATION_JSON_VALUE)
