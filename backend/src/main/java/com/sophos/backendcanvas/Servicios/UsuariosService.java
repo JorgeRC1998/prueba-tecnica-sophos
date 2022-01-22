@@ -9,7 +9,7 @@ import com.sophos.backendcanvas.Adaptadores.GeneralAdapter;
 import com.sophos.backendcanvas.Adaptadores.UsuariosAdapter;
 import com.sophos.backendcanvas.Dao.UsuariosDao;
 import com.sophos.backendcanvas.Dto.RespuestaGenericaDto;
-import com.sophos.backendcanvas.Dto.ActualizarUsuarioDtoRequest;
+import com.sophos.backendcanvas.Dto.ActualizarUsuarioRequestDto;
 import com.sophos.backendcanvas.Dto.ConsultarUsuariosRequestDto;
 import com.sophos.backendcanvas.Dto.CrearUsuarioRequestDto;
 import com.sophos.backendcanvas.Entidades.UsuariosEntity;
@@ -67,16 +67,22 @@ public class UsuariosService {
         RespuestaGenericaDto respuestaGenericaDto = new RespuestaGenericaDto();
 
         try{
-            String queryIni = "SELECT u FROM UsuariosEntity u WHERE";
-            if(!(consultarUsuariosRequestDto.getNombre() == null)){
-                queryIni +=  " u.nombre like " + "'%" + consultarUsuariosRequestDto.getNombre() +  "%'";
+            List<String> errores = usuarioRequestValidator.validacionConsultaUsuarioRequest(consultarUsuariosRequestDto);
+            if(errores.size() > 0){
+                respuestaGenericaDto = usuariosAdapter.obtenerValidacionUsuarioNOK(errores);
+            }else{
+                String queryIni = "SELECT u FROM UsuariosEntity u WHERE";
+                if(!(consultarUsuariosRequestDto.getNombre() == null)){
+                    queryIni +=  " u.nombre like " + "'%" + consultarUsuariosRequestDto.getNombre() +  "%'";
+                }
+                if(!(consultarUsuariosRequestDto.getTipoUsuario() == null) && !(consultarUsuariosRequestDto.getTipoUsuario().trim().equals(""))){
+                    queryIni +=  " AND u.tipoUsuario = " + "'" + consultarUsuariosRequestDto.getTipoUsuario() + "'";
+                }
+                queryIni = queryIni.replace("WHERE AND", "WHERE");
+                Query usuariosQuery = entityManager.createQuery(queryIni);
+                List<UsuariosEntity> usuarios = usuariosQuery.getResultList();
+                respuestaGenericaDto = usuariosAdapter.obtenerConsultaUsuarioOk(usuarios);
             }
-            if(!(consultarUsuariosRequestDto.getTipoUsuario() == null) && !(consultarUsuariosRequestDto.getTipoUsuario().trim().equals(""))){
-                queryIni +=  " AND u.tipoUsuario = " + "'" + consultarUsuariosRequestDto.getTipoUsuario() + "'";
-            }
-            Query usuariosQuery = entityManager.createQuery(queryIni);
-            List<UsuariosEntity> usuarios = usuariosQuery.getResultList();
-            respuestaGenericaDto = usuariosAdapter.obtenerConsultaUsuarioOk(usuarios);
         }catch(Exception e){
             // TODO loggear en archivo plano json con el detalle del error
             respuestaGenericaDto = generalAdapter.obtenerRespuestaExcepcion(e);
@@ -84,7 +90,7 @@ public class UsuariosService {
         return respuestaGenericaDto;
     }
 
-    public RespuestaGenericaDto actualizarUsuario(ActualizarUsuarioDtoRequest actualizarUsuarioDtoRequest){
+    public RespuestaGenericaDto actualizarUsuario(ActualizarUsuarioRequestDto actualizarUsuarioDtoRequest){
         RespuestaGenericaDto respuestaGenericaDto = new RespuestaGenericaDto();
 
         try{
@@ -94,7 +100,7 @@ public class UsuariosService {
             }else{
                 List<UsuariosEntity> usuarioExistente = usuariosDao.findUserById(actualizarUsuarioDtoRequest.getId());
                 if(usuarioExistente.size() == 0){
-                    respuestaGenericaDto = usuariosAdapter.obtenerActUsuNoExiste(actualizarUsuarioDtoRequest.getNombre());
+                    respuestaGenericaDto = usuariosAdapter.obtenerActUsuNoExiste(actualizarUsuarioDtoRequest.getId().toString());
                 }else{
                     usuariosDao.actualizarUsuario(actualizarUsuarioDtoRequest.getId(),
                                                 actualizarUsuarioDtoRequest.getNombre(),
@@ -116,12 +122,17 @@ public class UsuariosService {
         RespuestaGenericaDto respuestaGenericaDto = new RespuestaGenericaDto();
 
         try{
-            List<UsuariosEntity> usuarioExistente = usuariosDao.findUserById(idUsuario);
-            if(usuarioExistente.size() == 0){
-                respuestaGenericaDto = usuariosAdapter.obtenerActUsuNoExiste(idUsuario.toString());
+            List<String> errores = usuarioRequestValidator.validacionEliminarUsuarioRequest(idUsuario);
+            if(errores.size() > 0){
+                respuestaGenericaDto = usuariosAdapter.obtenerValidacionUsuarioNOK(errores);
             }else{
-                usuariosDao.eliminarUsuario(idUsuario);
-                respuestaGenericaDto = generalAdapter.obtenerRespuestaOk();
+                List<UsuariosEntity> usuarioExistente = usuariosDao.findUserById(idUsuario);
+                if(usuarioExistente.size() == 0){
+                    respuestaGenericaDto = usuariosAdapter.obtenerActUsuNoExiste(idUsuario.toString());
+                }else{
+                    usuariosDao.eliminarUsuario(idUsuario);
+                    respuestaGenericaDto = generalAdapter.obtenerRespuestaOk();
+                }
             }
         }catch(Exception e){
             // TODO loggear en archivo plano json con el detalle del error

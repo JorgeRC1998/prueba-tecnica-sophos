@@ -1,7 +1,7 @@
 package com.sophos.backendcanvas.Controladores;
 
 import com.sophos.backendcanvas.Dto.RespuestaGenericaDto;
-import com.sophos.backendcanvas.Dto.ActualizarUsuarioDtoRequest;
+import com.sophos.backendcanvas.Dto.ActualizarUsuarioRequestDto;
 import com.sophos.backendcanvas.Dto.ConsultarUsuariosRequestDto;
 import com.sophos.backendcanvas.Dto.CrearUsuarioRequestDto;
 import com.sophos.backendcanvas.Servicios.UsuariosService;
@@ -28,7 +28,7 @@ public class UsuariosController {
     /**
      * Inserta un nuevo usuario al sistema de tareas
      *
-     * @param usuarioRequestDto datos para guardar en el sistema
+     * @param crearUsuarioRequestDto datos para guardar en el sistema
      * @return ResponseEntity resultado de la operacion
      * @author JorgeRojas
     */
@@ -54,12 +54,12 @@ public class UsuariosController {
     /**
      * Actualiza un usuario previamente registrado en el sistema
      *
-     * @param usuarioEntity Parámetros para realizar la actualización del nuevo usuario
+     * @param actualizarUsuarioDtoRequest Parámetros para realizar la actualización del usuario
      * @return ResponseEntity Resultado de la operación
      * @author JorgeRojas
      */
     @PutMapping(path = "/actualizacion-usuario", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> actualizarUsuario(@RequestBody ActualizarUsuarioDtoRequest actualizarUsuarioDtoRequest){
+    public ResponseEntity<Object> actualizarUsuario(@RequestBody ActualizarUsuarioRequestDto actualizarUsuarioDtoRequest){
         RespuestaGenericaDto respuestaGenericaDto = usuariosService.actualizarUsuario(actualizarUsuarioDtoRequest);
         return new ResponseEntity<Object>(respuestaGenericaDto.getData(), HttpStatus.valueOf(respuestaGenericaDto.getStatus()));
     }
@@ -72,7 +72,7 @@ public class UsuariosController {
      * @author JorgeRojas
      */
     @DeleteMapping(path = "/eliminado-usuario/{idUsuario}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> actualizarUsuario(@PathVariable("idUsuario") Integer idUsuario){
+    public ResponseEntity<Object> eliminarUsuario(@PathVariable("idUsuario") Integer idUsuario){
         RespuestaGenericaDto respuestaGenericaDto = usuariosService.eliminarUsuario(idUsuario);
         return new ResponseEntity<Object>(respuestaGenericaDto.getData(), HttpStatus.valueOf(respuestaGenericaDto.getStatus()));
     }

@@ -66,7 +66,7 @@ public class UsuariosAdapter {
 
         respuesta.put(ConstantesApp.CODIGO, ConstantesApp.CODIGO_NOK);
         respuesta.put(ConstantesApp.MENSAJE, ConstantesApp.MENSAJE_NOK);
-        respuesta.put(ConstantesApp.DESCRIPCION, "Usuario: " + usuario + " no se encuentra registrado en el sistema");
+        respuesta.put(ConstantesApp.DESCRIPCION, "Usuario con Id: " + usuario + " no se encuentra registrado en el sistema");
         
         respuestaGenericaDto.setData(respuesta);
 

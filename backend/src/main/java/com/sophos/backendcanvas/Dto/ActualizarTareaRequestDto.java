@@ -1,67 +1,34 @@
-package com.sophos.backendcanvas.Entidades;
+package com.sophos.backendcanvas.Dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "TAREAS")
-public class TareasEntity {
-    @Id
-    @Column(name = "ID")
+public class ActualizarTareaRequestDto {
     private Integer id;
-
-    @Column(name = "TITULO")
     private String titulo;
-
-    @Column(name = "DESCRIPCION")
     private String descripcion;
-    
-    @Column(name = "ESTADO")
     private String estado;
-
-    @Column(name = "ID_USUARIO")
-    private Integer idUsuario;
-
+    
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
-
     public String getTitulo() {
         return titulo;
     }
-
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-
     public String getDescripcion() {
         return descripcion;
     }
-
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
     public String getEstado() {
         return estado;
     }
-
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    public Integer getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
     }
     
 }

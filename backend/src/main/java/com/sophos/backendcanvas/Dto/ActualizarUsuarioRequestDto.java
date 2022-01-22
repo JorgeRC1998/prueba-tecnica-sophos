@@ -1,6 +1,6 @@
 package com.sophos.backendcanvas.Dto;
 
-public class ActualizarUsuarioDtoRequest {
+public class ActualizarUsuarioRequestDto {
     private Integer id;
     private String nombre;
     private String identificacion;
