@@ -1,7 +1,11 @@
 package com.sophos.backendcanvas.Dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class ConsultarUsuariosRequestDto {
+    @ApiModelProperty(example = "usuario1")
     private String nombre;
+    @ApiModelProperty(example = "administrador")
     private String tipoUsuario;
 
     public String getNombre() {

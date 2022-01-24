@@ -1,9 +1,15 @@
 package com.sophos.backendcanvas.Dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class ActualizarTareaRequestDto {
+    @ApiModelProperty(example = "1")
     private Integer id;
+    @ApiModelProperty(example = "Tarea 1")
     private String titulo;
+    @ApiModelProperty(example = "Desceipcion tarea 1")
     private String descripcion;
+    @ApiModelProperty(example = "pendiente")
     private String estado;
     
     public Integer getId() {

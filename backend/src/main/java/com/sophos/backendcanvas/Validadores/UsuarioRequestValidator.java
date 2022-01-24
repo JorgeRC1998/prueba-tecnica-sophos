@@ -111,16 +111,16 @@ public class UsuarioRequestValidator {
             errores.add("Campo usuario es requerido");
         }
 
-        if(actualizarUsuarioDtoRequest.getUsuario().trim().length() > 15){
-            errores.add("La longitud del campo usuario debe ser inferior a 15 caracteres");
+        if(actualizarUsuarioDtoRequest.getUsuario().trim().length() > 100){
+            errores.add("La longitud del campo usuario debe ser inferior a 100 caracteres");
         }
     
         if(actualizarUsuarioDtoRequest.getPassword().trim().equals("")){
             errores.add("Campo password es requerido");
         }
 
-        if(actualizarUsuarioDtoRequest.getUsuario().trim().length() > 15){
-            errores.add("La longitud del password nombre debe ser inferior a 15 caracteres");
+        if(actualizarUsuarioDtoRequest.getUsuario().trim().length() > 100){
+            errores.add("La longitud del password nombre debe ser inferior a 100 caracteres");
         }
 
         return errores;

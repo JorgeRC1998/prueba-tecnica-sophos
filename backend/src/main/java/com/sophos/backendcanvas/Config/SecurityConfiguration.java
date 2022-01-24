@@ -16,10 +16,22 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
  
+   // @Override
+   // public void configure(final HttpSecurity http) throws Exception {
+   //    http.csrf().disable();
+   //    http.authorizeRequests().antMatchers("/**").permitAll().anyRequest().authenticated();
+   // }
+
    @Override
-   public void configure(final HttpSecurity http) throws Exception {
-      http.csrf().disable();
-      http.authorizeRequests().antMatchers("/**").permitAll().anyRequest().authenticated();
+   protected void configure(HttpSecurity httpSecurity) throws Exception {
+       httpSecurity.authorizeRequests().antMatchers("/").permitAll().and()
+               .authorizeRequests().antMatchers("/console/**",
+                                                "/v2/api-docs/**",
+                                                "/v3/api-docs/**",
+                                                "/swagger-ui/**",
+                                                "/swagger-resources/**").permitAll();
+       httpSecurity.csrf().disable();
+       httpSecurity.headers().frameOptions().disable();
    }
  
 }

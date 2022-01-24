@@ -1,7 +1,11 @@
 package com.sophos.backendcanvas.Dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class CrearTareaRequestDto {
+    @ApiModelProperty(example = "tarea1")
     private String titulo;
+    @ApiModelProperty(example = "descripcion tarea 1")
     private String descripcion;
 
     public String getTitulo() {

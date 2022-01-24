@@ -10,6 +10,7 @@ public class ConstantesApp {
     public static final String MENSAJE = "mensaje";
     public static final String ERRORES = "errores";
     public static final String DESCRIPCION = "descripcion";
+    public static final String TOKEN = "token";
     public static final String USUARIOS = "usuarios";
     public static final String TAREAS = "tareas";
     public static final String CODIGO_OK = "1";
@@ -19,4 +20,6 @@ public class ConstantesApp {
     public static final String MENSAJE_NOK = "Error";
     public static final String MENSAJE_NOK_EXC = "Error interno";
     public static final String OPERACION_OK = "Operacion se completo con exito";
+    public static final String MENSAJE_USR_PSS_NOK = "Usuario o password no validos";
+    public static final String MENSAJE_ERROR_INTERNO = "Se genero un error interno en el sistema. Por favor comuniquese con este codigo de error: ";
 }

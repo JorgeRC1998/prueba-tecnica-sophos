@@ -13,21 +13,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class TareasAdapter {
     
-    public RespuestaGenericaDto obtenerValidacionRequestNOK(List<String> errores){
-        RespuestaGenericaDto respuestaGenericaDto = new RespuestaGenericaDto();
-        Map<String, Object> respuesta = new HashMap<>();
-
-        respuestaGenericaDto.setStatus(400);
-
-        respuesta.put(ConstantesApp.CODIGO, ConstantesApp.CODIGO_NOK);
-        respuesta.put(ConstantesApp.MENSAJE, ConstantesApp.MENSAJE_NOK);
-        respuesta.put(ConstantesApp.ERRORES, errores);
-        
-        respuestaGenericaDto.setData(respuesta);
-
-        return respuestaGenericaDto;
-    }
-    
     public RespuestaGenericaDto obtenerConsultaTareaOk(List<TareasEntity> tareas){
         RespuestaGenericaDto respuestaGenericaDto = new RespuestaGenericaDto();
         Map<String, Object> respuesta = new HashMap<>();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
 
 import com.sophos.backendcanvas.Adaptadores.GeneralAdapter;
 import com.sophos.backendcanvas.Adaptadores.UsuariosAdapter;
@@ -16,6 +17,7 @@ import com.sophos.backendcanvas.Entidades.UsuariosEntity;
 import com.sophos.backendcanvas.Validadores.UsuarioRequestValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,15 +33,16 @@ public class UsuariosService {
     UsuarioRequestValidator usuarioRequestValidator;
     @Autowired
     EntityManager entityManager;
+    @Autowired
+    HttpServletRequest httpServletRequest;
 
     public RespuestaGenericaDto insertarNuevoUsuario(CrearUsuarioRequestDto crearUsuarioRequestDto) {
         RespuestaGenericaDto respuestaGenericaDto = new RespuestaGenericaDto();
 
         try{
-            // TODO Implementar validacion de token
             List<String> errores = usuarioRequestValidator.validacionCrearUsuarioRequest(crearUsuarioRequestDto);
             if(errores.size() > 0){
-                respuestaGenericaDto = usuariosAdapter.obtenerValidacionUsuarioNOK(errores);
+                respuestaGenericaDto = generalAdapter.obtenerValidacionRequestNOK(errores);
             }else{
                 List<UsuariosEntity> usuario = usuariosDao.buscarUsuario(crearUsuarioRequestDto.getNombre());
                 if(usuario.size() > 0){
@@ -51,13 +54,12 @@ public class UsuariosService {
                                                 crearUsuarioRequestDto.getIdentificacion(), 
                                                 crearUsuarioRequestDto.getTipoUsuario(), 
                                                 crearUsuarioRequestDto.getUsuario(),
-                                                crearUsuarioRequestDto.getPassword());
+                                                generarPasswordHasheado(crearUsuarioRequestDto.getPassword()));
                     respuestaGenericaDto = generalAdapter.obtenerRespuestaOk();
                 }
             }
         }catch(Exception e){
-            // TODO loggear en archivo plano json con el detalle del error
-            respuestaGenericaDto = generalAdapter.obtenerRespuestaExcepcion(e);
+            respuestaGenericaDto = generalAdapter.getRespuestaExcepcion(e.toString(), httpServletRequest, getClass().getCanonicalName());
         }
 
         return respuestaGenericaDto;
@@ -69,7 +71,7 @@ public class UsuariosService {
         try{
             List<String> errores = usuarioRequestValidator.validacionConsultaUsuarioRequest(consultarUsuariosRequestDto);
             if(errores.size() > 0){
-                respuestaGenericaDto = usuariosAdapter.obtenerValidacionUsuarioNOK(errores);
+                respuestaGenericaDto = generalAdapter.obtenerValidacionRequestNOK(errores);
             }else{
                 String queryIni = "SELECT u FROM UsuariosEntity u WHERE";
                 if(!(consultarUsuariosRequestDto.getNombre() == null)){
@@ -84,8 +86,7 @@ public class UsuariosService {
                 respuestaGenericaDto = usuariosAdapter.obtenerConsultaUsuarioOk(usuarios);
             }
         }catch(Exception e){
-            // TODO loggear en archivo plano json con el detalle del error
-            respuestaGenericaDto = generalAdapter.obtenerRespuestaExcepcion(e);
+            respuestaGenericaDto = generalAdapter.getRespuestaExcepcion(e.toString(), httpServletRequest, getClass().getCanonicalName());
         }
         return respuestaGenericaDto;
     }
@@ -96,7 +97,7 @@ public class UsuariosService {
         try{
             List<String> errores = usuarioRequestValidator.validacionActualizarUsuarioRequest(actualizarUsuarioDtoRequest);
             if(errores.size() > 0){
-                respuestaGenericaDto = usuariosAdapter.obtenerValidacionUsuarioNOK(errores);
+                respuestaGenericaDto = generalAdapter.obtenerValidacionRequestNOK(errores);
             }else{
                 List<UsuariosEntity> usuarioExistente = usuariosDao.findUserById(actualizarUsuarioDtoRequest.getId());
                 if(usuarioExistente.size() == 0){
@@ -107,13 +108,12 @@ public class UsuariosService {
                                                 actualizarUsuarioDtoRequest.getIdentificacion(),
                                                 actualizarUsuarioDtoRequest.getTipoUsuario(),
                                                 actualizarUsuarioDtoRequest.getUsuario(),
-                                                actualizarUsuarioDtoRequest.getPassword());
+                                                generarPasswordHasheado(actualizarUsuarioDtoRequest.getPassword()));
                     respuestaGenericaDto = generalAdapter.obtenerRespuestaOk();
                 }
             }
         }catch(Exception e){
-            // TODO loggear en archivo plano json con el detalle del error
-            respuestaGenericaDto = generalAdapter.obtenerRespuestaExcepcion(e);
+            respuestaGenericaDto = generalAdapter.getRespuestaExcepcion(e.toString(), httpServletRequest, getClass().getCanonicalName());
         }
         return respuestaGenericaDto;
     }
@@ -124,7 +124,7 @@ public class UsuariosService {
         try{
             List<String> errores = usuarioRequestValidator.validacionEliminarUsuarioRequest(idUsuario);
             if(errores.size() > 0){
-                respuestaGenericaDto = usuariosAdapter.obtenerValidacionUsuarioNOK(errores);
+                respuestaGenericaDto = generalAdapter.obtenerValidacionRequestNOK(errores);
             }else{
                 List<UsuariosEntity> usuarioExistente = usuariosDao.findUserById(idUsuario);
                 if(usuarioExistente.size() == 0){
@@ -135,10 +135,14 @@ public class UsuariosService {
                 }
             }
         }catch(Exception e){
-            // TODO loggear en archivo plano json con el detalle del error
-            respuestaGenericaDto = generalAdapter.obtenerRespuestaExcepcion(e);
+            respuestaGenericaDto = generalAdapter.getRespuestaExcepcion(e.toString(), httpServletRequest, getClass().getCanonicalName());
         }
         return respuestaGenericaDto;
+    }
+
+    public String generarPasswordHasheado(String passwordOriginal){
+		String passwordHasheado = BCrypt.hashpw(passwordOriginal, BCrypt.gensalt(12));
+        return passwordHasheado;
     }
 
 }

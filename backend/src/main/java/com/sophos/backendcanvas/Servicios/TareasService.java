@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
 
 import com.sophos.backendcanvas.Adaptadores.GeneralAdapter;
 import com.sophos.backendcanvas.Adaptadores.TareasAdapter;
@@ -39,15 +40,16 @@ public class TareasService {
     UsuariosDao usuariosDao;
     @Autowired
     UsuariosAdapter usuariosAdapter;
+    @Autowired
+    HttpServletRequest httpServletRequest;
 
     public RespuestaGenericaDto insertarNuevaTarea(CrearTareaRequestDto crearTareaRequestDto) {
         RespuestaGenericaDto respuestaGenericaDto = new RespuestaGenericaDto();
 
         try{
-            // TODO Implementar validacion de token
             List<String> errores = tareaRequestValidator.validacionCrearTareaRequest(crearTareaRequestDto);
             if(errores.size() > 0){
-                respuestaGenericaDto = tareasAdapter.obtenerValidacionRequestNOK(errores);
+                respuestaGenericaDto = generalAdapter.obtenerValidacionRequestNOK(errores);
             }else{
                 Integer idTarea = tareasDao.obtenerIdTarea();
                 tareasDao.insertarTarea(idTarea, 
@@ -56,8 +58,7 @@ public class TareasService {
                 respuestaGenericaDto = generalAdapter.obtenerRespuestaOk();
             }
         }catch(Exception e){
-            // TODO loggear en archivo plano json con el detalle del error
-            respuestaGenericaDto = generalAdapter.obtenerRespuestaExcepcion(e);
+            respuestaGenericaDto = generalAdapter.getRespuestaExcepcion(e.toString(), httpServletRequest, getClass().getCanonicalName());
         }
 
         return respuestaGenericaDto;
@@ -69,7 +70,7 @@ public class TareasService {
         try{
             List<String> errores = tareaRequestValidator.validacionConsultaTareasRequest(consultarTareasRequestDto);
             if(errores.size() > 0){
-                respuestaGenericaDto = tareasAdapter.obtenerValidacionRequestNOK(errores);
+                respuestaGenericaDto = generalAdapter.obtenerValidacionRequestNOK(errores);
             }else{
                 String queryIni = "SELECT t FROM TareasEntity t WHERE";
 
@@ -87,8 +88,7 @@ public class TareasService {
                 respuestaGenericaDto = tareasAdapter.obtenerConsultaTareaOk(tareas);
             }
         }catch(Exception e){
-            // TODO loggear en archivo plano json con el detalle del error
-            respuestaGenericaDto = generalAdapter.obtenerRespuestaExcepcion(e);
+            respuestaGenericaDto = generalAdapter.getRespuestaExcepcion(e.toString(), httpServletRequest, getClass().getCanonicalName());
         }
         return respuestaGenericaDto;
     }
@@ -99,7 +99,7 @@ public class TareasService {
         try{
             List<String> errores = tareaRequestValidator.validacionActualizarUsuarioRequest(actualizarTareaRequestDto);
             if(errores.size() > 0){
-                respuestaGenericaDto = tareasAdapter.obtenerValidacionRequestNOK(errores);
+                respuestaGenericaDto = generalAdapter.obtenerValidacionRequestNOK(errores);
             }else{
                 List<TareasEntity> tareaExistente = tareasDao.findTareaById(actualizarTareaRequestDto.getId());
                 if(tareaExistente.size() == 0){
@@ -113,8 +113,7 @@ public class TareasService {
                 }
             }
         }catch(Exception e){
-            // TODO loggear en archivo plano json con el detalle del error
-            respuestaGenericaDto = generalAdapter.obtenerRespuestaExcepcion(e);
+            respuestaGenericaDto = generalAdapter.getRespuestaExcepcion(e.toString(), httpServletRequest, getClass().getCanonicalName());
         }
         return respuestaGenericaDto;
     }
@@ -125,7 +124,7 @@ public class TareasService {
         try{
             List<String> errores = tareaRequestValidator.validacionLiberarEliminarTareaRequest(idTarea);
             if(errores.size() > 0){
-                respuestaGenericaDto = tareasAdapter.obtenerValidacionRequestNOK(errores);
+                respuestaGenericaDto = generalAdapter.obtenerValidacionRequestNOK(errores);
             }else{
                 List<TareasEntity> tareaExistente = tareasDao.findTareaById(idTarea);
                 if(tareaExistente.size() == 0){
@@ -140,8 +139,7 @@ public class TareasService {
                 }
             }
         }catch(Exception e){
-            // TODO loggear en archivo plano json con el detalle del error
-            respuestaGenericaDto = generalAdapter.obtenerRespuestaExcepcion(e);
+            respuestaGenericaDto = generalAdapter.getRespuestaExcepcion(e.toString(), httpServletRequest, getClass().getCanonicalName());
         }
         return respuestaGenericaDto;
     }
@@ -152,7 +150,7 @@ public class TareasService {
         try{
             List<String> errores = tareaRequestValidator.validacionAsignarTareaRequest(asignarTareaRequestDto);
             if(errores.size() > 0){
-                respuestaGenericaDto = tareasAdapter.obtenerValidacionRequestNOK(errores);
+                respuestaGenericaDto = generalAdapter.obtenerValidacionRequestNOK(errores);
             }else{
                 List<TareasEntity> tareaExistente = tareasDao.findTareaById(asignarTareaRequestDto.getId());
                 List<UsuariosEntity> usuarioExistente = usuariosDao.findUserById(asignarTareaRequestDto.getIdUsuario());
@@ -168,8 +166,7 @@ public class TareasService {
                 }
             }
         }catch(Exception e){
-            // TODO loggear en archivo plano json con el detalle del error
-            respuestaGenericaDto = generalAdapter.obtenerRespuestaExcepcion(e);
+            respuestaGenericaDto = generalAdapter.getRespuestaExcepcion(e.toString(), httpServletRequest, getClass().getCanonicalName());
         }
         return respuestaGenericaDto;
     }
@@ -180,7 +177,7 @@ public class TareasService {
         try{
             List<String> errores = tareaRequestValidator.validacionLiberarEliminarTareaRequest(idTarea);
             if(errores.size() > 0){
-                respuestaGenericaDto = tareasAdapter.obtenerValidacionRequestNOK(errores);
+                respuestaGenericaDto = generalAdapter.obtenerValidacionRequestNOK(errores);
             }else{
                 List<TareasEntity> tareaExistente = tareasDao.findTareaById(idTarea);
                 if(tareaExistente.size() == 0){
@@ -195,8 +192,7 @@ public class TareasService {
                 }
             }
         }catch(Exception e){
-            // TODO loggear en archivo plano json con el detalle del error
-            respuestaGenericaDto = generalAdapter.obtenerRespuestaExcepcion(e);
+            respuestaGenericaDto = generalAdapter.getRespuestaExcepcion(e.toString(), httpServletRequest, getClass().getCanonicalName());
         }
         return respuestaGenericaDto;
     }

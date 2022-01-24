@@ -1,10 +1,17 @@
 package com.sophos.backendcanvas.Dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class CrearUsuarioRequestDto {
+    @ApiModelProperty(example = "usuario1")
     private String nombre;
+    @ApiModelProperty(example = "999999999")
     private String identificacion;
+    @ApiModelProperty(example = "administrador")
     private String tipoUsuario;
+    @ApiModelProperty(example = "user1")
     private String usuario;
+    @ApiModelProperty(example = "pass1")
     private String password;
 
     public String getNombre() {
