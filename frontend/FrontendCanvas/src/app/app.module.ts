@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +22,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import {MatIconModule} from '@angular/material/icon';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -44,7 +47,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatSelectModule,
     MatGridListModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

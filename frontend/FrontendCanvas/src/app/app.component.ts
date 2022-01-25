@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'FrontendCanvas';
+  public isAuthenticated = false;
+
+  public logout(): void {
+    // todo
+  }
+  
 }
