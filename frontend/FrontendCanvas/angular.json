@@ -1,12 +1,12 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "9ac95283-318d-42b1-b472-c4008a2b7b2f"
+    "analytics": "ccbb221f-0d23-47f6-b550-c6e66ec8f153"
   },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "tareas-app": {
+    "FrontendCanvas": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/tareas-app",
+            "outputPath": "dist/frontend-canvas",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "tareas-app:build:production"
+              "browserTarget": "FrontendCanvas:build:production"
             },
             "development": {
-              "browserTarget": "tareas-app:build:development"
+              "browserTarget": "FrontendCanvas:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "tareas-app:build"
+            "browserTarget": "FrontendCanvas:build"
           }
         },
         "test": {
@@ -105,5 +105,5 @@
       }
     }
   },
-  "defaultProject": "tareas-app"
+  "defaultProject": "FrontendCanvas"
 }
