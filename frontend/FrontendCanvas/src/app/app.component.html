@@ -3,7 +3,11 @@
     <button mat-button routerLink="/">{{title}}</button>
   </span>
   <div fxLayout="row" fxShow="false" fxShow.gt-sm>
-    <button mat-button routerLink="/login" *ngIf="!isAuthenticated">
+    <button mat-button routerLink="/usuarios-registro">
+      <mat-icon>account_circle</mat-icon>
+      Registrar
+    </button>
+    <button mat-button routerLink="/usuarios-login" *ngIf="!isAuthenticated">
       <mat-icon>power_settings_new</mat-icon>
       Ingresar
     </button>

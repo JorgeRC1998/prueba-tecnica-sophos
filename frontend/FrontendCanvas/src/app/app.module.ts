@@ -23,10 +23,18 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
+import { TareasHomeComponent } from './componentes/tareas-home/tareas-home.component';
+import { TareasRegistroComponent } from './componentes/tareas-registro/tareas-registro.component';
+import { UsuariosRegistroComponent } from './componentes/usuarios-registro/usuarios-registro.component';
+import { UsuariosLoginComponent } from './componentes/usuarios-login/usuarios-login.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TareasHomeComponent,
+    TareasRegistroComponent,
+    UsuariosRegistroComponent,
+    UsuariosLoginComponent
   ],
   imports: [
     BrowserModule,

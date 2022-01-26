@@ -1,0 +1,20 @@
+<form [formGroup]="formularioLogin" class="form-container">
+  <mat-card>
+    <mat-card-content>
+      <h2>Log In</h2>
+      <div class="full-width">
+        <mat-form-field>
+          <input formControlName="usuario" type="text" matInput placeholder="Usuario">
+        </mat-form-field>
+      </div>
+      <div class="full-width">
+        <mat-form-field>
+          <input formControlName="password" type="password" matInput placeholder="Password">
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="login()">Ingresar</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

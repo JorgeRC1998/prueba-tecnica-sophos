@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  urlBackendPruebaTecnica: 'http://' + window.location.hostname + ':8060/sophos/servicios',
 };
 
 /*
