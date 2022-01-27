@@ -109,6 +109,7 @@ public class TareaRequestValidator {
         estadosTarea.add("pendiente");
         estadosTarea.add("ejecutando");
         estadosTarea.add("finalizado");
+        estadosTarea.add("");
 
         if(consultarTareasRequestDto.getEstado().trim().length() > 15){
             errores.add("La longitud del campo estado debe ser inferior a 15 caracteres");

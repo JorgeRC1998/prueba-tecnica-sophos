@@ -12,12 +12,14 @@ public class WebConfig implements WebMvcConfigurer {
     
     @Value("${origen_aplicacion}")
     private String origenapp;
+    // private String origenapp = "http://localhost:4200";
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry
             .addMapping("/**")
             .allowedOrigins(origenapp)
+            // .allowedOrigins("http://localhost:4200")
             .allowedHeaders("authorization", "Content-type")
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             .allowCredentials(true);

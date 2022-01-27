@@ -33,7 +33,7 @@ export class UsuariosLoginComponent implements OnInit, OnDestroy {
   construirFormulario(): FormGroup {
     return this.formBuilder.group({
       usuario: new FormControl(null, [Validators.required, Validators.maxLength(24)]),
-      password: new FormControl(null, [Validators.required, Validators.maxLength(24)]),
+      password: new FormControl(null, [Validators.required, Validators.maxLength(24)])
     });
   }
 
@@ -51,13 +51,14 @@ export class UsuariosLoginComponent implements OnInit, OnDestroy {
         if(response){
           if(response.codigo == '1'){
             sessionStorage.setItem('access_token', response.token);
-            this._router.navigateByUrl('/tareas-home');
+            this._router.navigateByUrl('/tareas');
+            this.notificationService.showSuccess(`Bienvenido: ${login.usuario}`, 'Exito');
           }else{
             this.notificationService.showWarning(response.descripcion, 'Alerta');
           }
         }
       }catch(err: any){
-        this.notificationService.showError(err.error.descripcion, 'Error Interno');
+        this.notificationService.showError(err.error.descripcion, 'Error');
       }
     }else{
       this.notificationService.showWarning('Por favor revise la totalidad y validez de los datos de este formulario', 'Datos Incompletos');

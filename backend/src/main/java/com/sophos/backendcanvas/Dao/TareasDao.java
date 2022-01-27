@@ -21,6 +21,9 @@ public interface TareasDao extends JpaRepository<TareasEntity, Integer> {
     @Query("SELECT t FROM TareasEntity t WHERE ID = :id")
     List<TareasEntity> findTareaById(@Param("id") Integer id);
 
+    @Query("SELECT t FROM TareasEntity t WHERE ID_USUARIO IS NULL")
+    List<TareasEntity> consultarTareasNoAsignacion();
+
     @Modifying
     @Query(value = "INSERT INTO TAREAS (ID, TITULO, DESCRIPCION, ESTADO) VALUES " +
                     "(:id, :titulo, :descripcion, 'pendiente')", nativeQuery = true)

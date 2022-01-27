@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -64,6 +65,22 @@ public class TareasController {
     @PostMapping(path = "/consulta-tareas", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> obtenerTareas(@RequestBody ConsultarTareasRequestDto consultarTareasRequestDto){
         RespuestaGenericaDto respuestaGenericaDto = tareasService.obtenerTareas(consultarTareasRequestDto);
+        return new ResponseEntity<Object>(respuestaGenericaDto.getData(), HttpStatus.valueOf(respuestaGenericaDto.getStatus()));
+    }
+
+    /**
+     * Realiza la consulta de las tareas segun usuario y estado en el sistema
+     *
+     * @param ConsultarTareasRequestDto parametros para realizar la consulta
+     * @return ResponseEntity Listado con las tareas que cumplen el filtro
+     * @author JorgeRojas
+     */
+    @ApiOperation(value = "Consultar tareas sin asignar", response = ArrayList.class, notes = "Consulta las tareas en el sistema que no tienen asignado un usuario", authorizations = {
+        @Authorization(value = "JWT") })
+    @ApiResponses(value = { @ApiResponse(code = 200, message = ConstantesSwagger.CONSULTA_TAREA_OK), @ApiResponse(code = 400, message = ConstantesSwagger.CONSULTA_TAREA_NOK) })
+    @GetMapping(path = "/consulta-tareas-noasignadas", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> obtenerTareasSinAsignar(){
+        RespuestaGenericaDto respuestaGenericaDto = tareasService.obtenerTareasSinAsignar();
         return new ResponseEntity<Object>(respuestaGenericaDto.getData(), HttpStatus.valueOf(respuestaGenericaDto.getStatus()));
     }
 

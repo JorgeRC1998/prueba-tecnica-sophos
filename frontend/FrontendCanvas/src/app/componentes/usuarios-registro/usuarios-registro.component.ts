@@ -3,6 +3,8 @@ import {  Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, Form } from '@angular/forms';
 import { NotificationService } from 'src/app/modulos/notificacion/notificacion.service';
 import { UsuariosService } from 'src/app/servicios/usuarios.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { UsuariosComponent } from '../usuarios/usuarios.component';
 
 @Component({
   selector: 'app-usuarios-registro',
@@ -22,7 +24,8 @@ export class UsuariosRegistroComponent implements OnInit {
     private _router: Router,
     private formBuilder: FormBuilder,
     private notificationService: NotificationService,
-    private usuariosService: UsuariosService
+    private usuariosService: UsuariosService,
+    private dialogRef: MatDialogRef<UsuariosComponent>,
   ) { 
     this.formularioRegUsr = this.construirFormulario();
   }
@@ -53,7 +56,34 @@ export class UsuariosRegistroComponent implements OnInit {
   }
 
   async registrarUsuario(){
+    if(this.formularioRegUsr.valid){
+      try{
+        let usuario = {
+          nombre: this.nombre?.value,
+          identificacion: this.identificacion?.value,
+          tipoUsuario: this.tipoUsuario?.value,
+          usuario: this.usuario?.value,
+          password: this.password?.value
+        };
+        let response = await this.usuariosService.registrarUsuario(usuario);
+        if(response){
+          if(response.codigo == '1'){
+            this.cancelar(true);
+            this.notificationService.showSuccess(response.descripcion, response.mensaje);
+          }else{
+            this.notificationService.showWarning(response.descripcion, 'Alerta');
+          }
+        }
+      }catch(err: any){
+        this.notificationService.showError(err.error.descripcion, 'Error');
+      }
+    }else{
+      this.notificationService.showWarning('Por favor revise la totalidad y validez de los datos de este formulario', 'Datos Incompletos');
+    }
+  }
 
+  cancelar(param: any = null){
+    this.dialogRef.close({resultado: param}); 
   }
 
 }

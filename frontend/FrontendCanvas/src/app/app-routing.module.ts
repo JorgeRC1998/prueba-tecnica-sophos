@@ -4,6 +4,7 @@ import { TareasHomeComponent } from './componentes/tareas-home/tareas-home.compo
 import { TareasRegistroComponent } from './componentes/tareas-registro/tareas-registro.component';
 import { UsuariosLoginComponent } from './componentes/usuarios-login/usuarios-login.component';
 import { UsuariosRegistroComponent } from './componentes/usuarios-registro/usuarios-registro.component';
+import { UsuariosComponent } from './componentes/usuarios/usuarios.component';
 
 const routes: Routes = [
   {
@@ -11,11 +12,15 @@ const routes: Routes = [
     component: UsuariosRegistroComponent
   },
   {
+    path: 'usuarios',
+    component: UsuariosComponent
+  },
+  {
     path: 'tareas-registro',
     component: TareasRegistroComponent
   },
   {
-    path: 'tareas-home',
+    path: 'tareas',
     component: TareasHomeComponent
   },
   {

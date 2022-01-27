@@ -92,6 +92,18 @@ public class TareasService {
         }
         return respuestaGenericaDto;
     }
+
+    public RespuestaGenericaDto obtenerTareasSinAsignar(){
+        RespuestaGenericaDto respuestaGenericaDto = new RespuestaGenericaDto();
+
+        try{
+            List<TareasEntity> tareas = tareasDao.consultarTareasNoAsignacion();
+            respuestaGenericaDto = tareasAdapter.obtenerConsultaTareaOk(tareas);
+        }catch(Exception e){
+            respuestaGenericaDto = generalAdapter.getRespuestaExcepcion(e.toString(), httpServletRequest, getClass().getCanonicalName());
+        }
+        return respuestaGenericaDto;
+    }
     
     public RespuestaGenericaDto actualizarTarea(ActualizarTareaRequestDto actualizarTareaRequestDto){
         RespuestaGenericaDto respuestaGenericaDto = new RespuestaGenericaDto();

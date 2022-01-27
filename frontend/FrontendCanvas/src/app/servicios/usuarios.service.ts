@@ -20,4 +20,16 @@ export class UsuariosService {
         return await this.httpClient.post(url, filtro).toPromise();
     }
 
+    async registrarUsuario(filtro: any): Promise<any> {
+        const headers = new HttpHeaders({ Authorization: 'Bearer ' +  sessionStorage.getItem('access_token')});
+        const url = environment.urlBackendPruebaTecnica + `/usuarios/insercion-usuario`;
+        return await this.httpClient.post(url, filtro, {headers}).toPromise();
+    }
+
+    async consultarUsuario(filtro: any): Promise<any> {
+        const headers = new HttpHeaders({ Authorization: 'Bearer ' +  sessionStorage.getItem('access_token')});
+        const url = environment.urlBackendPruebaTecnica + `/usuarios/consulta-usuarios`;
+        return await this.httpClient.post(url, filtro, {headers}).toPromise();
+    }
+
 }

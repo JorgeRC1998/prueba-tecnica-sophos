@@ -143,6 +143,7 @@ public class UsuarioRequestValidator {
         tiposUsuarios.add("administrador");
         tiposUsuarios.add("miembro");
         tiposUsuarios.add("invitado");
+        tiposUsuarios.add("");
 
         if(consultarUsuariosRequestDto.getNombre().trim().length() > 25){
             errores.add("La longitud del campo nombre debe ser inferior a 25 caracteres");

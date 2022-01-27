@@ -1,1 +1,22 @@
-<p>tareas-registro works!</p>
+<form [formGroup]="formularioRegTar" class="form-container">
+    <mat-card>
+      <mat-card-content>
+        <h2>Registro Tarea</h2>
+        <div class="full-width">
+          <mat-form-field>
+            <input formControlName="titulo" type="text" matInput placeholder="Titulo">
+          </mat-form-field>
+        </div>
+        <div class="full-width">
+          <mat-form-field>
+            <input formControlName="descripcion" type="text" matInput placeholder="Descripcion">
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="warn" (click)="cancelar()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="registrarTarea()">Guardar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+  

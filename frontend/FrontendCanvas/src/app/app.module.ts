@@ -27,6 +27,7 @@ import { TareasHomeComponent } from './componentes/tareas-home/tareas-home.compo
 import { TareasRegistroComponent } from './componentes/tareas-registro/tareas-registro.component';
 import { UsuariosRegistroComponent } from './componentes/usuarios-registro/usuarios-registro.component';
 import { UsuariosLoginComponent } from './componentes/usuarios-login/usuarios-login.component';
+import { UsuariosComponent } from './componentes/usuarios/usuarios.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { UsuariosLoginComponent } from './componentes/usuarios-login/usuarios-lo
     TareasHomeComponent,
     TareasRegistroComponent,
     UsuariosRegistroComponent,
-    UsuariosLoginComponent
+    UsuariosLoginComponent,
+    UsuariosComponent
   ],
   imports: [
     BrowserModule,
