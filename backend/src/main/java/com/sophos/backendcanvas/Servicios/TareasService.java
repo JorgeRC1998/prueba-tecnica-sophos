@@ -15,6 +15,7 @@ import com.sophos.backendcanvas.Dto.ActualizarTareaRequestDto;
 import com.sophos.backendcanvas.Dto.AsignarTareaRequestDto;
 import com.sophos.backendcanvas.Dto.ConsultarTareasRequestDto;
 import com.sophos.backendcanvas.Dto.CrearTareaRequestDto;
+import com.sophos.backendcanvas.Dto.EliminarLiberarTareaRequestDto;
 import com.sophos.backendcanvas.Dto.RespuestaGenericaDto;
 import com.sophos.backendcanvas.Entidades.TareasEntity;
 import com.sophos.backendcanvas.Entidades.UsuariosEntity;
@@ -183,22 +184,22 @@ public class TareasService {
         return respuestaGenericaDto;
     }
 
-    public RespuestaGenericaDto liberarTarea(Integer idTarea){
+    public RespuestaGenericaDto liberarTarea(EliminarLiberarTareaRequestDto eliminarLiberarTareaRequestDto){
         RespuestaGenericaDto respuestaGenericaDto = new RespuestaGenericaDto();
 
         try{
-            List<String> errores = tareaRequestValidator.validacionLiberarEliminarTareaRequest(idTarea);
+            List<String> errores = tareaRequestValidator.validacionLiberarEliminarTareaRequest(eliminarLiberarTareaRequestDto.getIdTarea());
             if(errores.size() > 0){
                 respuestaGenericaDto = generalAdapter.obtenerValidacionRequestNOK(errores);
             }else{
-                List<TareasEntity> tareaExistente = tareasDao.findTareaById(idTarea);
+                List<TareasEntity> tareaExistente = tareasDao.findTareaById(eliminarLiberarTareaRequestDto.getIdTarea());
                 if(tareaExistente.size() == 0){
-                    respuestaGenericaDto = tareasAdapter.obtenerActTarNoExiste(idTarea.toString());
+                    respuestaGenericaDto = tareasAdapter.obtenerActTarNoExiste(eliminarLiberarTareaRequestDto.getIdTarea().toString());
                 }else{
                     if(tareaExistente.get(0).getIdUsuario() == null){
-                        respuestaGenericaDto = tareasAdapter.obtenerNoLiberarTarea(idTarea);
+                        respuestaGenericaDto = tareasAdapter.obtenerNoLiberarTarea(eliminarLiberarTareaRequestDto.getIdTarea());
                     }else{
-                        tareasDao.liberarTarea(idTarea);
+                        tareasDao.liberarTarea(eliminarLiberarTareaRequestDto.getIdTarea());
                         respuestaGenericaDto = generalAdapter.obtenerRespuestaOk();
                     }
                 }

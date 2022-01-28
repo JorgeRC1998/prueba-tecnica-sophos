@@ -1,22 +1,30 @@
 <form [formGroup]="formularioRegTar" class="form-container">
-    <mat-card>
-      <mat-card-content>
-        <h2>Registro Tarea</h2>
-        <div class="full-width">
-          <mat-form-field>
-            <input formControlName="titulo" type="text" matInput placeholder="Titulo">
-          </mat-form-field>
-        </div>
-        <div class="full-width">
-          <mat-form-field>
-            <input formControlName="descripcion" type="text" matInput placeholder="Descripcion">
-          </mat-form-field>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="warn" (click)="cancelar()">Cancelar</button>
-        <button mat-raised-button color="primary" (click)="registrarTarea()">Guardar</button>
-      </mat-card-actions>
-    </mat-card>
-  </form>
-  
+  <mat-card>
+    <mat-card-content>
+      <h2>Registro Tarea</h2>
+      <div class="full-width">
+        <mat-form-field>
+          <input formControlName="titulo" type="text" [disabled]="esConsulta" matInput placeholder="Titulo">
+        </mat-form-field>
+      </div>
+      <div class="full-width">
+        <mat-form-field>
+          <input formControlName="descripcion" type="text" [disabled]="esConsulta" matInput placeholder="Descripcion">
+        </mat-form-field>
+      </div>
+      <br>
+      <div class="align-left">
+        <mat-select formControlName="estado" placeholder="Estado tareas" [disabled]="esGuardadoNuevo==1 || esConsulta">
+          <mat-option>Seleccione</mat-option>
+          <ng-container *ngFor="let estado of estadosTareas">
+            <mat-option [value]="estado">{{estado}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="warn" (click)="cancelar()">Cancelar</button>
+      <button mat-raised-button color="primary" [disabled]="esConsulta" (click)="registrarTarea()">Guardar</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

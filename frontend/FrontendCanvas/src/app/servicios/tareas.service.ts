@@ -37,15 +37,21 @@ export class TareasService {
         return await this.httpClient.put(url, filtro, {headers}).toPromise();
     }
 
-    async liberarTarea(idTarea: any): Promise<any> {
+    async actualizarTarea(filtro: any): Promise<any> {
         const headers = new HttpHeaders({ Authorization: 'Bearer ' +  sessionStorage.getItem('access_token')});
-        const url = environment.urlBackendPruebaTecnica + `/tareas/liberacion-tarea/${idTarea}`;
-        return await this.httpClient.put(url, {headers}).toPromise();
+        const url = environment.urlBackendPruebaTecnica + `/tareas/actualizacion-tarea`;
+        return await this.httpClient.put(url, filtro, {headers}).toPromise();
+    }
+
+    async liberarTarea(filtro: any): Promise<any> {
+        const headers = new HttpHeaders({ Authorization: 'Bearer ' +  sessionStorage.getItem('access_token')});
+        const url = environment.urlBackendPruebaTecnica + `/tareas/liberacion-tarea`;
+        return await this.httpClient.put(url, filtro, {headers}).toPromise();
     }
 
     async eliminarTarea(idTarea: any): Promise<any> {
         const headers = new HttpHeaders({ Authorization: 'Bearer ' +  sessionStorage.getItem('access_token')});
-        const url = environment.urlBackendPruebaTecnica + `/tareas/eliminado-tarea/${idTarea}`;
+        const url = environment.urlBackendPruebaTecnica + `/tareas/eliminado-tarea?idTarea=${idTarea}`;
         return await this.httpClient.delete(url, {headers}).toPromise();
     }
 

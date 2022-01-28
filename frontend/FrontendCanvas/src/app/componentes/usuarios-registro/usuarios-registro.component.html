@@ -4,27 +4,27 @@
       <h2>Registro Usuario</h2>
       <div class="full-width">
         <mat-form-field>
-          <input formControlName="nombre" type="text" matInput placeholder="Nombre">
+          <input formControlName="nombre" type="text" [disabled]="esConsulta" matInput placeholder="Nombre">
         </mat-form-field>
       </div>
       <div class="full-width">
         <mat-form-field>
-          <input formControlName="identificacion" type="number" matInput placeholder="Identificacion">
+          <input formControlName="identificacion" type="number" [disabled]="esConsulta" matInput placeholder="Identificacion">
         </mat-form-field>
       </div>
       <div class="full-width">
         <mat-form-field>
-          <input formControlName="usuario" type="text" matInput placeholder="Usuario">
+          <input formControlName="usuario" type="text" [disabled]="esConsulta" matInput placeholder="Usuario">
         </mat-form-field>
       </div>
       <div class="full-width">
         <mat-form-field>
-          <input formControlName="password" type="text" matInput placeholder="Password">
+          <input formControlName="password" type="text" [disabled]="esConsulta" matInput placeholder="Password">
         </mat-form-field>
       </div>
       <br>
       <div class="full-width align-left">
-        <mat-select formControlName="tipoUsuario" placeholder="Tipo de Usuario">
+        <mat-select formControlName="tipoUsuario" placeholder="Tipo de Usuario" [disabled]="esConsulta">
           <mat-option>Seleccione</mat-option>
           <ng-container *ngFor="let tipo of tiposUsuarios">
             <mat-option [value]="tipo">{{tipo}}</mat-option>
@@ -34,7 +34,7 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="warn" (click)="cancelar()">Cancelar</button>
-      <button mat-raised-button color="primary" (click)="registrarUsuario()">Guardar</button>
+      <button mat-raised-button color="primary" [disabled]="esConsulta" (click)="registrarUsuario()">Guardar</button>
     </mat-card-actions>
   </mat-card>
 </form>

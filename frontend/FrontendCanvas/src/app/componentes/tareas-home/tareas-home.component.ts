@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {  Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, Form } from '@angular/forms';
 import { NotificationService } from 'src/app/modulos/notificacion/notificacion.service';
-import { TareasService } from 'src/app/servicios/tareas.service'; 
+import { TareasService } from 'src/app/servicios/tareas.service';
 import { DecodeService } from 'src/app/servicios/decodertoken.service';
 import { UsuariosService } from 'src/app/servicios/usuarios.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,6 +24,7 @@ export interface TareaElement {
 export class TareasHomeComponent implements OnInit {
 
   formularioHomeTareas: FormGroup;
+  // formulario: FormGroup;
   datosToken: any;
   estadosTareas = [
     'sin asignar',
@@ -32,7 +33,9 @@ export class TareasHomeComponent implements OnInit {
     'finalizado'
   ];
   tareasList = [];
+  usuariosList: any = [];
   displayedColumns: string[] = ['id', 'titulo', 'descripcion', 'estado', 'idUsuario', 'opciones'];
+  dataRow: any = {};
 
   constructor(
     private _router: Router,
@@ -44,6 +47,7 @@ export class TareasHomeComponent implements OnInit {
     private matDialog: MatDialog,
   ) {
     this.formularioHomeTareas = this.construirFormulario();
+    // this.formulario = this.construirFormulario();
   }
 
   public ngOnInit(): void {
@@ -53,7 +57,7 @@ export class TareasHomeComponent implements OnInit {
   }
 
   public ngOnDestroy(): void {
-    
+
   }
 
   construirFormulario(): FormGroup {
@@ -64,29 +68,29 @@ export class TareasHomeComponent implements OnInit {
 
   get estado() { return this.formularioHomeTareas.get('estado'); }
 
-  async consultarDatosUsr(){
+  async consultarDatosUsr() {
     let datosUsuario: any;
-    try{
+    try {
       let consultaUser = {
         nombre: this.datosToken.sub,
         tipoUsuario: ''
       };
       let responseUsr = await this.usuariosService.consultarUsuario(consultaUser);
-      if(responseUsr){
-        if(responseUsr.codigo == '1'){
+      if (responseUsr) {
+        if (responseUsr.codigo == '1') {
           datosUsuario = responseUsr.usuarios[0];
-        }else{
+        } else {
           this.notificationService.showWarning(responseUsr.descripcion, 'Alerta');
         }
       }
-    }catch(err: any){
+    } catch (err: any) {
       this.notificationService.showError(err.error.descripcion, 'Error');
     }
     return datosUsuario;
   }
 
-  async consultarTareas(){
-    try{
+  async consultarTareas() {
+    try {
       let datosUsr = await this.consultarDatosUsr();
       let usuario = datosUsr;
       let responseTar: any;
@@ -94,75 +98,148 @@ export class TareasHomeComponent implements OnInit {
         idUsuario: usuario.id,
         estado: this.estado?.value,
       };
-      
-      if(consultaTarea.estado == "sin asignar"){
+
+      if (consultaTarea.estado == "sin asignar") {
         responseTar = await this.tareasService.consultarTareasSinAsignacion();
-      }else{
+      } else {
         responseTar = await this.tareasService.consultarTareas(consultaTarea);
       }
-      
-      if(responseTar){
-        if(responseTar.codigo == '1'){
+
+      if (responseTar) {
+        if (responseTar.codigo == '1') {
           this.tareasList = responseTar.tareas;
           this.notificationService.showSuccess('Consulta exitosa', 'Exito');
-        }else{
+        } else {
           this.notificationService.showWarning(responseTar.descripcion, 'Alerta');
         }
       }
-    }catch(err: any){
+    } catch (err: any) {
       this.notificationService.showError(err.error.descripcion, 'Error');
     }
   }
 
-  async verTarea(tarea: any){
-    alert('detalle');
+  verTarea(tarea: any) {
+    this.dataRow = tarea;
+    this.callVerTarea(this.dataRow);
   }
 
-  async modificarTarea(tarea: any){
-    alert('modificaion');
-  }
-
-  async eliminarTarea(tarea: any){
-    alert('eliminacion');
-  }
-
-  async asignarTarea(tarea: any){
-    console.log('hi');
-    try{
-      let datosUsr = await this.consultarDatosUsr();
-      let responseAsign: any;
-      let asignacionTarea = {
-        id: '', 
-        idUsuario: datosUsr.id
-      }
-
-      responseAsign = await this.tareasService.asignarTarea(asignacionTarea);
-    }catch(err: any){
-      this.notificationService.showError(err.error.descripcion, 'Error');
-    }
-  }
-
-  async liberarTarea(tarea: any){
-    alert('liberacion');
-  }
-
-  async desplegarRegistroTarea(){
+  async callVerTarea(tarea: any = null) {
     const dialogRef = this.matDialog.open(TareasRegistroComponent, {
       width: '500px',
       height: '400px',
-      data: { 
-        // data: {
-        //   roles: this.rolesList,
-        //   usuario: usuario
-        // }
+      data: {
+        row: tarea,
+        esConsulta: true
       }
     });
 
     dialogRef.afterClosed().subscribe(async result => {
-      if(result.resultado){
+      if (result.resultado) {
         await this.consultarTareas();
       }
     });
+  }
+
+  modificarTarea(tarea: any) {
+    this.dataRow = tarea;
+    this.callMoficiarRegistrarTarea(this.dataRow);
+  }
+
+  async callMoficiarRegistrarTarea(dataRow: any = null){
+    const dialogRef = this.matDialog.open(TareasRegistroComponent, {
+      width: '500px',
+      height: '400px',
+      data: {
+        row: dataRow
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result.resultado) {
+        await this.consultarTareas();
+      }
+    });
+  }
+
+  eliminarTarea(tarea: any) {
+    this.dataRow = tarea;
+    this.callEliminarTarea();
+  }
+
+  async callEliminarTarea(){
+    try {
+      let responseLib: any;
+
+      responseLib = await this.tareasService.eliminarTarea(this.dataRow.id);
+
+      if (responseLib) {
+        if (responseLib.codigo == '1') {
+          this.notificationService.showSuccess(responseLib.descripcion, 'Exito');
+          this.consultarTareas();
+        } else {
+          this.notificationService.showWarning(responseLib.descripcion, 'Alerta');
+        }
+      }
+    } catch (err: any) {
+      this.notificationService.showError(err.error.descripcion, 'Error');
+    }
+  }
+
+  asignarTarea(tarea: any) {
+    this.dataRow = tarea;
+    this.callAsigarTarea();
+  }
+
+  async callAsigarTarea(){
+    try {
+      let datosUsr = await this.consultarDatosUsr();
+      let responseAsign: any;
+      let asignacionTarea = {
+        id: this.dataRow.id,
+        idUsuario: datosUsr.id
+      }
+
+      responseAsign = await this.tareasService.asignarTarea(asignacionTarea);
+
+      if (responseAsign) {
+        if (responseAsign.codigo == '1') {
+          this.notificationService.showSuccess(responseAsign.descripcion, 'Exito');
+          this.estado?.setValue('pendiente');
+          this.consultarTareas();
+        } else {
+          this.notificationService.showWarning(responseAsign.descripcion, 'Alerta');
+        }
+      }
+    } catch (err: any) {
+      this.notificationService.showError(err.error.descripcion, 'Error');
+    }
+  }
+
+  liberarTarea(tarea: any) {
+    this.dataRow = tarea;
+    this.callLiberarTarea();
+  }
+
+  async callLiberarTarea(){
+    try {
+      let responseLib: any;
+      let tarea = {
+        idTarea: this.dataRow.id
+      };
+
+      responseLib = await this.tareasService.liberarTarea(tarea);
+
+      if (responseLib) {
+        if (responseLib.codigo == '1') {
+          this.notificationService.showSuccess(responseLib.descripcion, 'Exito');
+          this.consultarTareas();
+        } else {
+          this.notificationService.showWarning(responseLib.descripcion, 'Alerta');
+        }
+      }
+    } catch (err: any) {
+      this.notificationService.showError(err.error.descripcion, 'Error');
+    }
   }
 
 }

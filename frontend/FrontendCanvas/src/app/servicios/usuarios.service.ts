@@ -14,9 +14,7 @@ export class UsuariosService {
     }
 
     async login(filtro: any): Promise<any> {
-        // const headers = new HttpHeaders({ Authorization: 'Bearer ' +  sessionStorage.getItem('access_token')});
         const url = environment.urlBackendPruebaTecnica + `/auth/login`;
-        // return await this.httpClient.post(url, filtro, {headers}).toPromise();
         return await this.httpClient.post(url, filtro).toPromise();
     }
 
@@ -30,6 +28,18 @@ export class UsuariosService {
         const headers = new HttpHeaders({ Authorization: 'Bearer ' +  sessionStorage.getItem('access_token')});
         const url = environment.urlBackendPruebaTecnica + `/usuarios/consulta-usuarios`;
         return await this.httpClient.post(url, filtro, {headers}).toPromise();
+    }
+
+    async actualizarUsuario(filtro: any): Promise<any> {
+        const headers = new HttpHeaders({ Authorization: 'Bearer ' +  sessionStorage.getItem('access_token')});
+        const url = environment.urlBackendPruebaTecnica + `/usuarios/actualizacion-usuario`;
+        return await this.httpClient.put(url, filtro, {headers}).toPromise();
+    }
+
+    async eliminarUsuario(idUsuario: any): Promise<any> {
+        const headers = new HttpHeaders({ Authorization: 'Bearer ' +  sessionStorage.getItem('access_token')});
+        const url = environment.urlBackendPruebaTecnica + `/usuarios/eliminado-usuario?idUsuario=${idUsuario}`;
+        return await this.httpClient.delete(url, {headers}).toPromise();
     }
 
 }

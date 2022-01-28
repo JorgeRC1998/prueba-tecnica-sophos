@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
@@ -93,8 +94,8 @@ public class UsuariosController {
     @ApiOperation(value = "Eliminar usuario", response = ArrayList.class, notes = "Elimina un usuario del sistema", authorizations = {
         @Authorization(value = "JWT") })
     @ApiResponses(value = { @ApiResponse(code = 200, message = ConstantesSwagger.OPERACION_OK), @ApiResponse(code = 400, message = ConstantesSwagger.ELIMINAR_USUARIO_NOK) })
-    @DeleteMapping(path = "/eliminado-usuario/{idUsuario}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> eliminarUsuario(@ApiParam(example = "1") @PathVariable("idUsuario") Integer idUsuario){
+    @DeleteMapping(path = "/eliminado-usuario", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> eliminarUsuario(@ApiParam(example = "1") @RequestParam("idUsuario") Integer idUsuario){
         RespuestaGenericaDto respuestaGenericaDto = usuariosService.eliminarUsuario(idUsuario);
         return new ResponseEntity<Object>(respuestaGenericaDto.getData(), HttpStatus.valueOf(respuestaGenericaDto.getStatus()));
     }

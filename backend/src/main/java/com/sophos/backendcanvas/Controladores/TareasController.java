@@ -6,6 +6,7 @@ import com.sophos.backendcanvas.Dto.ActualizarTareaRequestDto;
 import com.sophos.backendcanvas.Dto.AsignarTareaRequestDto;
 import com.sophos.backendcanvas.Dto.ConsultarTareasRequestDto;
 import com.sophos.backendcanvas.Dto.CrearTareaRequestDto;
+import com.sophos.backendcanvas.Dto.EliminarLiberarTareaRequestDto;
 import com.sophos.backendcanvas.Dto.RespuestaGenericaDto;
 import com.sophos.backendcanvas.Servicios.TareasService;
 import com.sophos.backendcanvas.Util.ConstantesSwagger;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
@@ -126,9 +128,9 @@ public class TareasController {
     @ApiOperation(value = "Liberar tarea", response = ArrayList.class, notes = "Libera una tarea para que otros usuarios la puedan tomar", authorizations = {
         @Authorization(value = "JWT") })
     @ApiResponses(value = { @ApiResponse(code = 200, message = ConstantesSwagger.OPERACION_OK), @ApiResponse(code = 400, message = ConstantesSwagger.LIBERAR_TAREA_NOK) })
-    @PutMapping(path = "/liberacion-tarea/{idTarea}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> liberarTarea(@ApiParam(example = "1") @PathVariable("idTarea") Integer idTarea){
-        RespuestaGenericaDto respuestaGenericaDto = tareasService.liberarTarea(idTarea);
+    @PutMapping(path = "/liberacion-tarea", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> liberarTarea(@RequestBody EliminarLiberarTareaRequestDto eliminarLiberarTareaRequestDto){
+        RespuestaGenericaDto respuestaGenericaDto = tareasService.liberarTarea(eliminarLiberarTareaRequestDto);
         return new ResponseEntity<Object>(respuestaGenericaDto.getData(), HttpStatus.valueOf(respuestaGenericaDto.getStatus()));
     }
 
@@ -142,8 +144,8 @@ public class TareasController {
     @ApiOperation(value = "Eliminar tarea", response = ArrayList.class, notes = "Elimina una tarea del sistema", authorizations = {
         @Authorization(value = "JWT") })
     @ApiResponses(value = { @ApiResponse(code = 200, message = ConstantesSwagger.OPERACION_OK), @ApiResponse(code = 400, message = ConstantesSwagger.ELIMINAR_TAREA_NOK) })
-    @DeleteMapping(path = "/eliminado-tarea/{idTarea}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> eliminarTarea(@ApiParam(example = "1") @PathVariable("idTarea") Integer idTarea){
+    @DeleteMapping(path = "/eliminado-tarea", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> eliminarTarea(@ApiParam(example = "1") @RequestParam("idTarea") Integer idTarea){
         RespuestaGenericaDto respuestaGenericaDto = tareasService.eliminarTarea(idTarea);
         return new ResponseEntity<Object>(respuestaGenericaDto.getData(), HttpStatus.valueOf(respuestaGenericaDto.getStatus()));
     }

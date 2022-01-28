@@ -24,6 +24,10 @@ export class UsuariosComponent implements OnInit {
   ];
   usuariosList = [];
   displayedColumns: string[] = ['id', 'nombre', 'identificacion', 'tipoUsuario', 'usuario', 'password', 'opciones'];
+  dataRow: any = {};
+  objUsuario: any = {};
+  esConsulta: any = false;
+  esGuardadoNuevo = 1;
 
   constructor(
     private _router: Router,
@@ -38,8 +42,6 @@ export class UsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.datosToken = this.decodeService.decodeToken();
-    // this.consultarUsuarios(); 
-    // this.tipoUsuario?.setValue(this.tiposUsuarios[1]);
   }
 
   construirFormulario(): FormGroup {
@@ -77,35 +79,71 @@ export class UsuariosComponent implements OnInit {
     }
   }
 
-  async desplegarRegistroUsuarios(usuario: any = null){
+  modificarUsuario(usuario: any) {
+    this.dataRow = usuario;
+    this.callMoficiarRegistrarUsuario(this.dataRow);
+  }
+
+  async callMoficiarRegistrarUsuario(dataRow: any = null){
     const dialogRef = this.matDialog.open(UsuariosRegistroComponent, {
       width: '500px',
       height: '525px',
-      data: { 
-        // data: {
-        //   roles: this.rolesList,
-        //   usuario: usuario
-        // }
+      data: {
+        row: dataRow
       }
     });
 
     dialogRef.afterClosed().subscribe(async result => {
-      if(result.resultado){
+      if (result.resultado) {
         await this.consultarUsuarios();
       }
     });
   }
 
-  async verUsuario(usuario: any){
-    console.log('hi');
+  verUsuario(usuario: any) {
+    this.dataRow = usuario;
+    this.callVerUsuario(this.dataRow);
   }
 
-  async modificarUsuario(usuario: any){
+  async callVerUsuario(usuario: any = null) {
+    const dialogRef = this.matDialog.open(UsuariosRegistroComponent, { 
+      width: '500px',
+      height: '525px',
+      data: {
+        row: usuario,
+        esConsulta: true
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result.resultado) {
+        await this.consultarUsuarios();
+      }
+    });
   }
 
-  async eliminarUsuario(usuario: any){
+  eliminarUsuario(usuario: any) {
+    this.dataRow = usuario;
+    this.callEliminarUsuario();
+  }
 
+  async callEliminarUsuario(){
+    try {
+      let responseLib: any;
+
+      responseLib = await this.usuariosService.eliminarUsuario(this.dataRow.id);
+
+      if (responseLib) {
+        if (responseLib.codigo == '1') {
+          this.notificationService.showSuccess(responseLib.descripcion, 'Exito');
+          this.consultarUsuarios();
+        } else {
+          this.notificationService.showWarning(responseLib.descripcion, 'Alerta');
+        }
+      }
+    } catch (err: any) {
+      this.notificationService.showError(err.error.descripcion, 'Error');
+    }
   }
 
 }
