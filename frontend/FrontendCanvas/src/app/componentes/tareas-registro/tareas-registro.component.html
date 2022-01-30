@@ -5,11 +5,17 @@
       <div class="full-width">
         <mat-form-field>
           <input formControlName="titulo" type="text" [disabled]="esConsulta" matInput placeholder="Titulo">
+          <mat-error>
+            Por favor ingrese un titulo valido
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="full-width">
         <mat-form-field>
           <input formControlName="descripcion" type="text" [disabled]="esConsulta" matInput placeholder="Descripcion">
+          <mat-error>
+            Por favor ingrese una descrpcion valida
+          </mat-error>
         </mat-form-field>
       </div>
       <br>

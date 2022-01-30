@@ -5,11 +5,17 @@
       <div class="full-width">
         <mat-form-field>
           <input formControlName="usuario" type="text" matInput placeholder="Usuario">
+          <mat-error>
+            Por favor ingrese un usuario valido
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="full-width">
         <mat-form-field>
           <input formControlName="password" type="password" matInput placeholder="Password">
+          <mat-error>
+            Por favor ingrese un password valido
+          </mat-error>
         </mat-form-field>
       </div>
     </mat-card-content>

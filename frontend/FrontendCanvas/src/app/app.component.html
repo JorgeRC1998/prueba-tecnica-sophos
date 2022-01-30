@@ -3,17 +3,21 @@
     <button mat-button routerLink="/">{{title}}</button>
   </span>
   <div fxLayout="row" fxShow="false" fxShow.gt-sm>
-    <button mat-button routerLink="/tareas">
+    <button mat-button routerLink="/tareas" *ngIf="authenticated">
       <mat-icon>assignment</mat-icon>
       Tareas
     </button>
-    <button mat-button routerLink="/usuarios">
+    <button mat-button routerLink="/usuarios" *ngIf="authenticated">
       <mat-icon>account_circle</mat-icon>
       Usuarios
     </button>
-    <button mat-button routerLink="/usuarios-login" *ngIf="!isAuthenticated">
+    <button mat-button (click)="login()" *ngIf="!authenticated">
       <mat-icon>power_settings_new</mat-icon>
       Ingresar
+    </button>
+    <button mat-button (click)="logout()" *ngIf="authenticated">
+      <mat-icon>exit_to_app</mat-icon>
+      Logout
     </button>
   </div>
   <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>

@@ -5,21 +5,33 @@
       <div class="full-width">
         <mat-form-field>
           <input formControlName="nombre" type="text" [disabled]="esConsulta" matInput placeholder="Nombre">
+          <mat-error>
+            Por favor ingrese un nombre valido
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="full-width">
         <mat-form-field>
           <input formControlName="identificacion" type="number" [disabled]="esConsulta" matInput placeholder="Identificacion">
+          <mat-error>
+            Por favor ingrese una identificacion valida
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="full-width">
         <mat-form-field>
           <input formControlName="usuario" type="text" [disabled]="esConsulta" matInput placeholder="Usuario">
+          <mat-error>
+            Por favor ingrese un usuario valido
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="full-width">
         <mat-form-field>
           <input formControlName="password" type="text" [disabled]="esConsulta" matInput placeholder="Password">
+          <mat-error>
+            Por favor ingrese un password valido
+          </mat-error>
         </mat-form-field>
       </div>
       <br>

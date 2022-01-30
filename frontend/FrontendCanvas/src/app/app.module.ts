@@ -60,7 +60,7 @@ import { UsuariosComponent } from './componentes/usuarios/usuarios.component';
     MatIconModule,
     MatMenuModule
   ],
-  providers: [],
+  providers: [UsuariosLoginComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
